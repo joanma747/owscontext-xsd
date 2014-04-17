@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by Joan Masó (UAB-CREAF-MiraMon). -->
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:owc="http://www.opengis.net/owc/1.0" xmlns:atom="http://www.w3.org/2005/Atom" targetNamespace="http://www.opengis.net/owc/1.0" elementFormDefault="qualified" xml:lang="en">
+	<annotation>
+		<appinfo>OWSContext 2012-08-31</appinfo>
+		<documentation>
+		    Copyright (c) 2012 Open Geospatial Consortium, Inc. All Rights Reserved. 
+		    To obtain additional rights of use, visit http://www.opengeospatial.org/legal/.
+		</documentation>
+	</annotation>
+	<import namespace="http://www.w3.org/2005/Atom" schemaLocation="atom_feed.xsd"/>
+	<!-- Feed extensions for display sizes -->
+	<element name="display" type="owc:DisplayType">
+		<annotation>
+			<documentation>Service or inline content offering for the resource targetted at OGC compliant clients.</documentation>
+		</annotation>
+	</element>
+	<complexType name="DisplayType">
+		<annotation>
+			<documentation>Information related to the display area used in the creator application when the OWS Context document was produced. This set of properties only applies to creator applications which are using a geographic display and is supporting information to the exploiter of the OWS Context document. Note the elements within creator display are intended as supporting information (metadata) for clients and not properties which should control the display size of the client opening the document.</documentation>
+		</annotation>
+		<choice maxOccurs="unbounded">
+			<element name="pixelWidth" type="nonNegativeInteger" minOccurs="0">
+				<annotation>
+					<documentation>Width measured in pixels of the display specified by Area of Interest</documentation>
+				</annotation>
+			</element>
+			<element name="pixelHeight" type="nonNegativeInteger" minOccurs="0">
+				<annotation>
+					<documentation>Height measured in pixels of the display specified by Area of Interest.</documentation>
+				</annotation>
+			</element>
+			<element name="mmPerPixel" type="double" minOccurs="0">
+				<annotation>
+					<documentation>The number of mm per pixel for the display (allowing the real display size to be calculated).</documentation>
+				</annotation>
+			</element>
+			<any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</choice>
+	</complexType>
+	<!-- Entry extensions for dealing with scale interval -->
+	<element name="minScaleDenominator" type="double">
+		<annotation>
+			<documentation>Minimum scale for the display of the resource. This element is an element extension for entry</documentation>
+		</annotation>
+	</element>
+	<element name="maxScaleDenominator" type="double">
+		<annotation>
+			<documentation>Minimum scale for the display of the resource. This element is an element extension for entry</documentation>
+		</annotation>
+	</element>
+	<!-- -Entry extensions for dealing with Offerings -->
+	<simpleType name="KnownOfferingTypeCodeType">
+		<restriction base="string">
+			<enumeration value="http://www.opengis.net/spec/owc-atom/1.0/req/csw"/>
+			<enumeration value="http://www.opengis.net/spec/owc-atom/1.0/req/wcs"/>
+			<enumeration value="http://www.opengis.net/spec/owc-atom/1.0/req/wfs"/>
+			<enumeration value="http://www.opengis.net/spec/owc-atom/1.0/req/wms"/>
+			<enumeration value="http://www.opengis.net/spec/owc-atom/1.0/req/wmts"/>
+			<enumeration value="http://www.opengis.net/spec/owc-atom/1.0/req/wps"/>
+			<enumeration value="http://www.opengis.net/spec/owc-atom/1.0/req/gml"/>
+			<enumeration value="http://www.opengis.net/spec/owc-atom/1.0/req/kml"/>
+			<enumeration value="http://www.opengis.net/spec/owc-atom/1.0/req/geotiff"/>
+			<enumeration value="http://www.opengis.net/spec/owc-atom/1.0/req/gmljp2"/>
+			<enumeration value="http://www.opengis.net/spec/owc-atom/1.0/req/gmlcov"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="OfferingTypeCodeType">
+		<union memberTypes="owc:KnownOfferingTypeCodeType string"/>
+	</simpleType>
+	<simpleType name="MethodCodeType">
+		<restriction base="string">
+			<enumeration value="GET"/>
+			<enumeration value="POST"/>
+			<enumeration value="PUT"/>
+			<enumeration value="DELETE"/>
+			<enumeration value="HEAD"/>
+			<enumeration value="OPTIONS"/>
+		</restriction>
+	</simpleType>
+	<!--simpleType name="KnownOperationTypeCodeType">
+		<restriction base="string">
+			<enumeration value="capabilities"/>
+			<enumeration value="describe"/>
+			<enumeration value="data_access"/>
+			<enumeration value="data_transaction"/>
+			<enumeration value="status"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="OperationTypeCodeType">
+		<union memberTypes="owc:KnownOperationTypeCodeType string"/>
+	</simpleType-->
+	<simpleType name="KnownOperationCodeType">
+		<restriction base="string">
+			<enumeration value="GetCapabilities"/>
+			<enumeration value="DescribeFeature"/>
+			<enumeration value="DescribeCoverage"/>
+			<enumeration value="GetMap"/>
+			<enumeration value="GetTile"/>
+			<enumeration value="GetFeature"/>
+			<enumeration value="GetFeatureInfo"/>
+			<enumeration value="GetCoverage"/>
+			<enumeration value="GetRecords"/>
+			<enumeration value="Execute"/>
+			<enumeration value="Transaction"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="OperationCodeType">
+		<union memberTypes="owc:KnownOperationCodeType string"/>
+	</simpleType>
+	<element name="offering" type="owc:OfferingType">
+		<annotation>
+			<documentation>Service or inline content offering for the resource targetted at OGC compliant clients.</documentation>
+		</annotation>
+	</element>
+	<complexType name="OfferingType">
+		<annotation>
+			<documentation>Service or inline content offering for the resource targetted at OGC compliant clients.</documentation>
+		</annotation>
+		<choice maxOccurs="unbounded">
+			<element name="operation" type="owc:OperationType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="content" type="owc:ContentType" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="styleSet" type="owc:StyleSetType" minOccurs="0" maxOccurs="unbounded"/>
+			<any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</choice>
+		<attribute name="code" type="owc:OfferingTypeCodeType" use="required">
+			<annotation>
+				<documentation>Code identifying the type of offering.</documentation>
+			</annotation>
+		</attribute>
+	</complexType>
+	<complexType name="OperationType">
+		<annotation>
+			<documentation>
+				Service operations useful to retrieve the information.
+			</documentation>
+		</annotation>
+		<choice maxOccurs="unbounded">
+			<element name="request" type="owc:ContentType" minOccurs="0">
+				<annotation>
+					<documentation>For POST and SOAP Requests, a payload is required. Note: not necessarily XML as the content is defined by MIME-type. If the content is text/xml or application/xml+* it MUST be present as a XML fragment (without the xml... header) and the encoding MUST be the same as the feed. </documentation>
+				</annotation>
+			</element>
+			<element name="result" type="owc:ContentType" minOccurs="0">
+				<annotation>
+					<documentation>Result is an optional parameter that captures the result of an operation, in the form it was returned from the server. This can be defined inline or as a reference. When the result content is inline XML it should be as a XML fragment (without the xml... header) and the encoding MUST be the same as the feed. </documentation>
+				</annotation>
+			</element>
+			<any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</choice>
+		<attribute name="method" type="owc:MethodCodeType" default="GET">
+			<annotation>
+				<documentation>This identifies the method (verb) of the operation. Possible values are GET, POST... Default value is GET.</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="code" type="owc:OperationCodeType" use="required">
+			<annotation>
+				<documentation>Code identifying the type of Operation. Typically the OGC Service request type, e.g. "GetCapabilities" or "GetMap". </documentation>
+			</annotation>
+		</attribute>
+		<attribute name="href" type="anyURI" use="required">
+			<annotation>
+				<documentation>For HTTP GET the serviceURL item is used to capture the entire request. For POST (and SOAP) requests, the serviceURL is used to capture the address, and in addition a payload is required. See payload below for an example of the POST request.</documentation>
+			</annotation>
+		</attribute>
+		<attribute name="type" type="atom:ContentTypeType"/>
+		<anyAttribute namespace="##other" processContents="lax"/>
+	</complexType>
+	<complexType name="ContentType" mixed="true">
+		<sequence>
+			<any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="type" type="atom:ContentTypeType" use="required"/>
+		<attribute name="href" type="anyURI"/>
+	</complexType>
+	<!-- Entry extension for folder -->
+	<element name="forder" type="string">
+		<annotation>
+			<documentation>Definition of the folder structure in which the resource is placed.</documentation>
+		</annotation>
+	</element>
+	<complexType name="StyleSetType">
+		<annotation>
+			<documentation>Defines a portrayal style for a resource content.</documentation>
+		</annotation>
+		<choice maxOccurs="unbounded">
+			<element name="name" type="string">
+				<annotation>
+					<documentation>Unique name of the styleSet within a given service </documentation>
+				</annotation>
+			</element>
+			<element name="title" type="string">
+				<annotation>
+					<documentation>A Human Readable Title for the style</documentation>
+				</annotation>
+			</element>
+			<element name="abstract" type="string" minOccurs="0">
+				<annotation>
+					<documentation>Abstract or description of the Style</documentation>
+				</annotation>
+			</element>
+			<element name="legendURL" type="atom:linkType" minOccurs="0">
+				<annotation>
+					<documentation>URL of a legend image for the style</documentation>
+				</annotation>
+			</element>
+			<element name="content" type="owc:ContentType" minOccurs="0">
+				<annotation>
+					<documentation>			
+			The inline or a external reference to the style definition 
+					</documentation>
+				</annotation>
+			</element>
+			<any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</choice>
+		<attribute name="default" type="boolean" default="false">
+			<annotation>
+				<documentation>Specifies the style to be applied when the service is invoked (other styles are there as alternatives).</documentation>
+			</annotation>
+		</attribute>
+	</complexType>
+</schema>
